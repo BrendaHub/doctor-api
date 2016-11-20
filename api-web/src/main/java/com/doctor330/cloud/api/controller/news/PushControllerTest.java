@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.doctor330.cloud.api.controller.common.BaseController;
 import com.doctor330.cloud.constants.Constants;
-import com.doctor330.cloud.server.message.IMessageService;
+//import com.doctor330.cloud.server.message.IMessageService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -19,8 +19,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping(value = "/bg/push", produces = "application/json;charset=UTF-8")
 public class PushControllerTest extends BaseController {
 
-	@Autowired
-	IMessageService imessageService;
+//	@Autowired
+//	IMessageService imessageService;
 
 	@ApiOperation(value = "pushMessage", notes = "向单个用户推送透传消息", tags = { Constants.INTERFACE_PUSH_NAME })
 	@ResponseBody
@@ -29,8 +29,8 @@ public class PushControllerTest extends BaseController {
 			@RequestParam("transmissionContent") String transmissionContent,
 			@RequestParam("transmissionType") String transmissionType,
 			@RequestParam("offlineExpireTime") String offlineExpireTime) {
-		Boolean pushMessageToSingleUser = imessageService.pushMessageToSingleUser(Integer.parseInt(userId),
-				transmissionContent, Integer.parseInt(transmissionType), Integer.parseInt(offlineExpireTime));
+		Boolean pushMessageToSingleUser = true;//imessageService.pushMessageToSingleUser(Integer.parseInt(userId),
+			//	transmissionContent, Integer.parseInt(transmissionType), Integer.parseInt(offlineExpireTime));
 		if (pushMessageToSingleUser) {
 			return getBinggouJsonObject("向单个用户推送透传消息成功！", 200, true, null);
 		} else {

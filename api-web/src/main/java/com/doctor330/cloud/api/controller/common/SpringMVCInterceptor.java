@@ -8,13 +8,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
-import com.doctor330.cloud.server.common.IRedisService;
 
 
 public class SpringMVCInterceptor implements HandlerInterceptor {
-	
-	@Autowired
-	IRedisService redisService;
+//
+//	@Autowired
+//	IRedisService redisService;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -28,7 +27,7 @@ public class SpringMVCInterceptor implements HandlerInterceptor {
 			String clientToken =  request.getParameter("token");
 			String bindId = request.getParameter("bindid");
 			
-			Boolean checkTokenResult = checkToken(clientToken,bindId);
+			Boolean checkTokenResult = true;//checkToken(clientToken,bindId);
 			if(checkTokenResult){
 				return true;
 			}
@@ -53,20 +52,20 @@ public class SpringMVCInterceptor implements HandlerInterceptor {
 		return false;
 	}
 
-	private Boolean checkToken(String clientToken,String bindId){
-		
-		if("888888".equals(redisService.getRedisValueByKey("binggou")))
-			return true;
-		if(bindId == null || "".equals(bindId))
-			return false;
-		String serverToken =  redisService.getRedisValueByKey(bindId);
-		if(serverToken == null || clientToken==null)
-			return false;
-		if(!clientToken.equals(serverToken)){
-			return false;
-		}
-		return true;
-	}
+//	private Boolean checkToken(String clientToken,String bindId){
+//
+//		if("888888".equals(redisService.getRedisValueByKey("binggou")))
+//			return true;
+//		if(bindId == null || "".equals(bindId))
+//			return false;
+//		String serverToken =  redisService.getRedisValueByKey(bindId);
+//		if(serverToken == null || clientToken==null)
+//			return false;
+//		if(!clientToken.equals(serverToken)){
+//			return false;
+//		}
+//		return true;
+//	}
 	
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+
+	<mvc:default-servlet-handler />
+
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<property name="supportedMediaTypes" value="text/plain;charset=UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<context:annotation-config />
+
+	<bean id="springMVCInterceptor"
+		class="com.doctor330.cloud.api.controller.common.SpringMVCInterceptor"></bean>
+	<!-- 加入拦截器对用户session进行检查 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/bg/**" />
+			<mvc:exclude-mapping path="/webjars/**"/>
+			<mvc:exclude-mapping path="/swagger-resources/**"/>
+			<ref bean="springMVCInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<context:component-scan base-package="com.doctor330.cloud.api.controller">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- swagger 配置 ,线上版本需要注释掉 -->
+    <bean class="com.doctor330.cloud.config.SwaggerConfiguration"/>
+    <!-- swagger ui resources-->
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/springfox-swagger-ui"/>
+    
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<!-- <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/> -->
+		<property name="prefix" value="/META-INF/resources/" />
+		<property name="suffix" value=".html" />
+		<property name="order" value="1" />
+	</bean>
+
+
+</beans>
